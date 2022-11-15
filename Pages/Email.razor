@@ -2,7 +2,7 @@
 @using Microsoft.Extensions.Logging
 @using SESDemo.Interfaces
 @inject IEmailService _emailservice
-
+@inject SweetAlertService Swal
 <PageTitle>Email</PageTitle>
 
 <h1>Email</h1>
@@ -47,7 +47,15 @@
 
     private async Task SendEmail()
     {
-         await _emailservice.SendEmailAsync(emailModel.Destination, emailModel.Subject, emailModel.Body, emailModel.CC);
-        // Process the valid form
+        bool result = await _emailservice.SendEmailAsync(emailModel.Destination, emailModel.Subject, emailModel.Body, emailModel.CC);
+        emailModel = new EmailModel();
+        if (result == true)
+        {
+            await Swal.FireAsync("Email sent");
+        }
+        else
+        {
+            await Swal.FireAsync("Oops...", "Failed to send email", "error");
+        }
     }
 }
