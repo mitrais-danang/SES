@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SESDemo.Interfaces;
 using SESDemo.Services;
 using CurrieTechnologies.Razor.SweetAlert2;
+using Amazon.SimpleEmail;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,8 +17,10 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.Configure<MailSetting>(builder.Configuration.GetSection("Mail"));
+builder.Services.Configure<AWSAccount>(builder.Configuration.GetSection("AWS"));
 builder.Services.AddScoped<IEmailService, EmailServices>();
 builder.Services.AddSweetAlert2();
+builder.Services.AddAWSService<IAmazonSimpleEmailService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

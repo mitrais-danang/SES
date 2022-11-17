@@ -7,5 +7,6 @@
         public string SMTPUserName { get; set; }
         public string SMTPPassword { get; set; }
         public string SMTPEmailFrom { get; set; }
+
     }
 }

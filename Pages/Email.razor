@@ -42,6 +42,8 @@
     
 </EditForm>
 
+<input type="button" class="btn btn-primary" value="Send templated email" onclick="@SendTemplatedEmail" />
+
 @code {
     private EmailModel emailModel = new EmailModel();
 
@@ -49,6 +51,21 @@
     {
         bool result = await _emailservice.SendEmailAsync(emailModel.Destination, emailModel.Subject, emailModel.Body, emailModel.CC);
         emailModel = new EmailModel();
+        if (result == true)
+        {
+            await Swal.FireAsync("Email sent");
+        }
+        else
+        {
+            await Swal.FireAsync("Oops...", "Failed to send email", "error");
+        }
+    }
+
+    private async Task SendTemplatedEmail()
+    {
+        bool result = await _emailservice.SendTemplateEmailAsync();
+
+
         if (result == true)
         {
             await Swal.FireAsync("Email sent");
